@@ -1,4 +1,3 @@
-import string
 pyg = 'ay'
 
 original = input('Enter a sentance to translate: ')
@@ -31,8 +30,6 @@ def makeallcaps(w):
 def piglatinize(o):
   if hasnoletters(o):
     return o
-  has_first = False
-  has_letter = False
   word = o.lower()
   first= ''
   vowels = ['a', 'e', 'i', 'o', 'u']
@@ -44,11 +41,11 @@ def piglatinize(o):
   for x in word:
     if len(first) > 0:
       vowels.append('y')
-    if x not in vowels and not has_first:
+    if x not in vowels:
       first = first + x
       word = word[1:]
     else:
-      has_first = True
+      break
 
   word = word + first
   
