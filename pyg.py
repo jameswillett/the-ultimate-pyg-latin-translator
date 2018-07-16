@@ -1,5 +1,3 @@
-pyg = 'ay'
-
 original = input('Enter a sentance to translate: ')
 
 def isallcaps(w):
@@ -27,7 +25,15 @@ def makeallcaps(w):
     return w[0].upper() + makeallcaps(w[1:])
   return w[0].upper()
 
-def piglatinize(o):
+def pygize(w, t):
+  vowels = 'aeiou'
+  if len(t) > 0:
+    vowels = vowels + 'y'
+  if w[0] not in vowels:
+    return pygize(w[1:], t + w[0])
+  return w + t + 'ay'
+
+def handlepygization(o):
   if hasnoletters(o):
     return o
   word = o.lower()
@@ -37,22 +43,13 @@ def piglatinize(o):
   start_punc = getpunc(word, '')
   end_punc = getpunc(word[::-1], '')[::-1]
   word = word[len(start_punc):len(word) - len(end_punc)]
-
-  for x in word:
-    if len(first) > 0:
-      vowels.append('y')
-    if x not in vowels:
-      first = first + x
-      word = word[1:]
-    else:
-      break
-
-  word = word + first
+  
+  pygd = pygize(word, '')
   
   if o[len(start_punc)].isupper():
-    word = word[0].upper() + word[1:]
+    pygd = pygd[0].upper() + pygd[1:]
    
-  final_word = start_punc + word + pyg + end_punc
+  final_word = start_punc + pygd + end_punc
 
   if isallcaps(o) and len(o) > 1:
     final_word = makeallcaps(final_word)
@@ -61,7 +58,7 @@ def piglatinize(o):
 
 if len(original) > 0:
   words = original.split()
-  piglatin_words = map(piglatinize, words)
+  piglatin_words = map(handlepygization, words)
   print(' '.join(piglatin_words))
 else:
   print('invalid')
