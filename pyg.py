@@ -37,8 +37,6 @@ def handlepygization(o):
   if hasnoletters(o):
     return o
   word = o.lower()
-  first= ''
-  vowels = ['a', 'e', 'i', 'o', 'u']
   
   start_punc = getpunc(word, '')
   end_punc = getpunc(word[::-1], '')[::-1]
@@ -52,7 +50,7 @@ def handlepygization(o):
   final_word = start_punc + pygd + end_punc
 
   if isallcaps(o) and len(o) > 1:
-    final_word = makeallcaps(final_word)
+    return makeallcaps(final_word)
 
   return final_word
 
