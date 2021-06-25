@@ -20,11 +20,6 @@ def get_punctuation(word, acc):
   else:
     return get_punctuation(word[1:], acc + word[0])
 
-def make_all_caps(word):
-  if len(word[1:]) > 0:
-    return word[0].upper() + make_all_caps(word[1:])
-  return word[0].upper()
-
 def pygize(word, acc):
   vowels = 'aeiou'
   if len(acc) > 0:
@@ -50,7 +45,7 @@ def handle_pygization(raw):
   final_word = start_punc + pygd + end_punc
 
   if is_all_caps(raw) and len(raw) > 1:
-    return make_all_caps(final_word)
+    return final_word.upper()
 
   return final_word
 
