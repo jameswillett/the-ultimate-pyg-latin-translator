@@ -1,42 +1,42 @@
 original = input('Enter a sentance to translate: ')
 
-def isallcaps(w):
-  if (w[0].isupper() or not w[0].isalpha()) and len(w[1:]) > 0:
-    return isallcaps(w[1:])
-  if (w[0].isupper() or not w[0].isalpha()) and len(w[1:]) == 0:
+def isallcaps(word):
+  if (word[0].isupper() or not word[0].isalpha()) and len(word[1:]) > 0:
+    return isallcaps(word[1:])
+  if (word[0].isupper() or not word[0].isalpha()) and len(word[1:]) == 0:
     return True
   return False
 
-def hasnoletters(w):
-  if not w[0].isalpha() and len(w[1:]) == 0:
+def hasnoletters(word):
+  if not word[0].isalpha() and len(word[1:]) == 0:
     return True
-  if w[0].isalpha():
+  if word[0].isalpha():
     return False
-  return hasnoletters(w[1:])
+  return hasnoletters(word[1:])
 
-def getpunc(w, a):
-  if w[0].isalnum():
-    return a
+def getpunc(word, acc):
+  if word[0].isalnum():
+    return acc
   else:
-    return getpunc(w[1:], a + w[0])
+    return getpunc(word[1:], acc + word[0])
 
-def makeallcaps(w):
-  if len(w[1:]) > 0:
-    return w[0].upper() + makeallcaps(w[1:])
-  return w[0].upper()
+def makeallcaps(word):
+  if len(word[1:]) > 0:
+    return word[0].upper() + makeallcaps(word[1:])
+  return word[0].upper()
 
-def pygize(w, t):
+def pygize(word, acc):
   vowels = 'aeiou'
-  if len(t) > 0:
+  if len(acc) > 0:
     vowels = vowels + 'y'
-  if w[0] not in vowels:
-    return pygize(w[1:], t + w[0])
-  return w + t + 'ay'
+  if word[0] not in vowels:
+    return pygize(word[1:], acc + word[0])
+  return word + acc + 'ay'
 
-def handlepygization(o):
-  if hasnoletters(o):
-    return o
-  word = o.lower()
+def handlepygization(original):
+  if hasnoletters(original):
+    return original
+  word = original.lower()
   
   start_punc = getpunc(word, '')
   end_punc = getpunc(word[::-1], '')[::-1]
@@ -44,12 +44,12 @@ def handlepygization(o):
   
   pygd = pygize(word, '')
   
-  if o[len(start_punc)].isupper():
+  if original[len(start_punc)].isupper():
     pygd = pygd[0].upper() + pygd[1:]
    
   final_word = start_punc + pygd + end_punc
 
-  if isallcaps(o) and len(o) > 1:
+  if isallcaps(original) and len(original) > 1:
     return makeallcaps(final_word)
 
   return final_word
